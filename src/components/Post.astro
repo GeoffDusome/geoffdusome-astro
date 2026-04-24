@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+const { post } = Astro.props;
+const tn = (key: string) => `${key}-${post.data.slug}`;
+---
+
+<div class="post">
+    <div class="post__inner">
+        <div class="post__image-container">
+            <Image
+                src={post.data.imageUrl}
+                alt={post.data.imageAlt}
+                layout="constrained"
+                class="post__image"
+                transition:name={tn('post-image')}
+            />
+        </div>
+        <div class="post__content">
+            <span class="post__category" transition:name={tn('post-category')}>{post.data.category.label}</span>
+            <div class="post__title-container">
+                <h3 class="post__title animated-underline" transition:name={tn('post-title')}>{post.data.title}</h3>
+            </div>
+            <time class="post__date" datetime={post.data.pubDate.toISOString()} transition:name={tn('post-date')}>{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+            <p class="post__description">{post.data.description}</p>
+        </div>
+    </div>
+    <a href={`/blog/${post.data.slug}`} class="post__link" aria-label={`Read more about ${post.data.title}`}></a>
+</div>
+
+<style>
+    .post {
+        display: grid;
+        width: 100%;
+        height: 100%;
+
+        @media (hover: hover) {
+            &:hover {
+                .post__title {
+                    background-size: 100% 0.1em;
+                }
+
+                .post__image {
+                    transform: scale(1.05);
+                }
+            }
+        }
+
+        &:focus-within {
+            .post__title {
+                background-size: 100% 0.1em;
+            }
+
+            .post__image {
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    .post__inner {
+        grid-area: 1 / 1;
+        position: relative;
+        z-index: 1;
+    }
+
+    .post__image-container {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 2;
+        overflow: hidden;
+    }
+
+    .post__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.15s ease-in-out;
+    }
+
+    .post__content {
+        margin-block-start: 1rem;
+    }
+
+    .post__category {
+        display: block;
+        text-transform: capitalize;
+        font-size: 0.875rem;
+        line-height: 1.2;
+        font-weight: 400;
+        color: var(--shade-orange-800);
+    }
+
+    .post__title-container {
+        margin-block-start: 0.5rem;
+        margin-block-end: 0.6rem;
+    }
+
+    .post__title {
+        font-size: 1.5rem;
+        line-height: 1.2;
+        font-weight: 600;
+    }
+
+    .post__date {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.2;
+        font-weight: 400;
+        color: var(--shade-orange-800);
+    }
+
+    .post__description {
+        margin-block-start: 0.5rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        font-weight: 400;
+        color: var(--shade-orange-800);
+    }
+
+    .post__link {
+        grid-area: 1 / 1;
+        position: relative;
+        z-index: 2;
+    }
+</style>

@@ -1,0 +1,29 @@
+---
+import Nav from './Nav.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer>
+    <p>&copy; {year} Geoff Dusome.</p>
+    <Nav items={[
+        { href: 'https://codepen.io/geoffdusome/', text: 'CodePen', target: '_blank' },
+        { href: 'https://github.com/GeoffDusome', text: 'GitHub', target: '_blank' },
+        { href: 'https://www.linkedin.com/in/geoffrey-dusome/', text: 'LinkedIn', target: '_blank' },
+        { href: 'https://twitter.com/GeoffDusome', text: 'X', target: '_blank' },
+        { href: 'mailto:geoffdusome@gmail.com', text: 'Email' },
+    ]} />
+</footer>
+
+<style>
+    footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem var(--grid-margin);
+        background-color: var(--shade-orange-800);
+        color: #fff;
+    }
+</style>

@@ -1,0 +1,27 @@
+---
+import Post from './Post.astro';
+const { posts } = Astro.props;
+---
+
+<div class="post-list">
+    {posts.length === 0 ? (
+        <p>No posts found.</p>
+    ) : (
+        <ul class="post-list__grid">
+            {posts.map((post: any) => (
+                <li>
+                    <Post post={post} />
+                </li>
+            ))}
+        </ul>
+    )}
+</div>
+
+<style>
+    .post-list__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--grid-gutter);
+        padding-block-end: 4rem;
+    }
+</style>

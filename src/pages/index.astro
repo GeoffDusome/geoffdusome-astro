@@ -1,11 +1,22 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Container from '../components/Container.astro';
+import Hero from '../components/Hero.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout 
+	title="Home | Geoff Dusome"
+	seo={{
+		description: "Hi! I'm a full-stack web developer with a passion for creating beautiful and functional websites. I'm based in Grand Rapids, MI and I'm currently working as a Senior Frontend Engineer at Modern Tribe.",
+		canonicalUrl: 'https://geoffduso.me',
+		ogTitle: 'Home | Geoff Dusome',
+		ogType: 'website',
+		twitterCard: 'summary',
+	}}
+>
+	<Container>
+		<Hero title="Geoff Dusome">
+			<p>Hi! I'm a full-stack web developer with a passion for creating beautiful and functional websites. I'm based in Grand Rapids, MI and I'm currently working as a Senior Frontend Engineer at <a href="https://moderntribeagency.com/" target="_blank" class="animated-underline">Modern Tribe</a>.</p>
+		</Hero>
+	</Container>
 </Layout>

@@ -1,3 +1,21 @@
+---
+import '../assets/css/reset.css';
+import '../assets/css/variables.css';
+import '../assets/css/utilities.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SEO, { type SEOData } from '../components/SEO.astro';
+import { Font } from 'astro:assets';
+
+interface Props {
+	title: string;
+	seo?: SEOData;
+}
+
+const { title, seo } = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -6,18 +24,23 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<SEO seo={seo} />
+		<title>{title}</title>
+		<ClientRouter />
+		<Font cssVariable="--font-open-sans" />
 	</head>
 	<body>
-		<slot />
+		<Header />
+		<main transition:animate="fade">
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>
 
 <style>
 	html,
 	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
+		font-family: var(--font-open-sans);
 	}
 </style>

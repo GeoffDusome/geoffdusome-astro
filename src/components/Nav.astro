@@ -1,0 +1,23 @@
+---
+import NavItem from './NavItem.astro';
+
+const { items, linkColor } = Astro.props;
+---
+
+<nav>
+    <ul>
+        {items.map((item: { href: string; text: string; target?: string }) => (
+            <NavItem href={item.href} text={item.text} target={item.target || undefined} isActive={Astro.url.pathname === item.href} />
+        ))}
+    </ul>
+</nav>
+
+<style define:vars={{ linkColor }}>
+    nav ul {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        list-style: none;
+        color: var(--linkColor);
+    }
+</style>

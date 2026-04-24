@@ -1,0 +1,274 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/Container.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+
+  return posts.map((post) => ({
+    params: { id: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const tn = (key: string) => `${key}-${post.data.slug}`;
+
+const site = Astro.site;
+const canonicalUrl = site
+  ? new URL(Astro.url.pathname, site).href
+  : undefined;
+
+let ogImage: string | undefined;
+if (site) {
+  const { src } = await getImage({ src: post.data.imageUrl, width: 1200 });
+  ogImage = new URL(src, site).href;
+}
+---
+<Layout
+  title={`${post.data.title} | Geoff Dusome`}
+  seo={{
+    description: post.data.description,
+    canonicalUrl,
+    ogTitle: post.data.title,
+    ogImage,
+    ogImageAlt: post.data.imageAlt,
+    ogType: 'article',
+    articlePublishedTime: post.data.pubDate.toISOString(),
+    ...(post.data.updatedDate && {
+      articleModifiedTime: post.data.updatedDate.toISOString(),
+    }),
+    twitterCard: 'summary_large_image',
+  }}
+>
+  <div class="post-hero">
+    <Container>
+      <div class="post-hero__actions">
+        <a href="/blog" class="animated-underline">&lArr; Back to blog</a>
+      </div>
+      <div class="post-hero__category-container">
+        <a
+          href={`/blog/categories/${post.data.category.slug}`}
+          class="post-hero__category animated-underline"
+          transition:name={tn('post-category')}
+        >{post.data.category.label}</a>
+      </div>
+      <h1 class="post-hero__title" transition:name={tn('post-title')}>{post.data.title}</h1>
+      <time class="post-hero__date" datetime={post.data.pubDate.toISOString()} transition:name={tn('post-date')}>{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+    </Container>
+  </div>
+  <Container>
+    <div class="post-content">
+      <div class="post-content__image-container" transition:name={tn('post-image')}>
+        <Image 
+          src={post.data.imageUrl} 
+          alt={post.data.imageAlt}
+          layout="full-width"
+          class="post-content__image"
+        />
+      </div>
+      <div class="post-content__inner">
+        <Content />
+      </div>
+    </div>
+    <div class="post-footer">
+      <div class="post-footer__tags">
+        {post.data.tags.length > 0 && (
+          <span class="post-footer__tags-label">Filed under:</span>
+          <ul class="post-footer__tags-list">
+            {post.data.tags.map((tag) => (
+              <li class="post-footer__tag"><a href={`/blog/tags/${tag.slug}`}>{tag.label}</a></li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+	</Container>
+</Layout>
+
+<style>
+  .post-hero {
+    padding: 4rem 0;
+    text-align: left;
+    background-color: var(--tint-orange-100);
+  }
+
+  .post-hero__actions {
+    margin-block-end: 1.5rem;
+    text-align: left;
+  }
+
+  .post-hero__actions a {
+    text-decoration: none;
+    color: var(--color-black);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .post-hero__category {
+    font-size: 0.875rem;
+    line-height: 1.2;
+    font-weight: 600;
+    color: var(--shade-orange-800);
+    text-decoration: none;
+  }
+
+  .post-hero__tag {
+    display: block;
+    text-transform: capitalize;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    font-weight: 400;
+    color: var(--shade-orange-800);
+  }
+
+  .post-hero__title {
+    margin-block-start: 1rem;
+    margin-block-end: 1.5rem;
+    font-size: 3rem;
+  }
+
+  .post-hero__date {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    font-weight: 400;
+    color: var(--shade-orange-800);
+  }
+
+  .post-content__image-container {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  .post-content__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .post-content {
+    margin-block-start: 4rem;
+    margin-block-end: 4rem;
+  }
+
+  .post-content__inner {
+    max-width: var(--grid-content-width);
+    margin-block-start: 4rem;
+  }
+
+  .post-content :global(h2) {
+    margin-block-start: 2rem;
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 600;
+
+    &:first-child {
+      margin-block-start: 0;
+    }
+  }
+
+  .post-content :global(h3) {
+    margin-block-start: 1.5rem;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    font-weight: 600;
+
+    &:first-child {
+      margin-block-start: 0;
+    }
+  }
+
+  .post-content :global(p) {
+    margin-block-start: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 400;
+
+    &:first-child {
+      margin-block-start: 0;
+    }
+  }
+
+  .post-content :global(ul) {
+    margin-block-start: 1rem;
+    padding-inline-start: 1rem;
+    list-style-type: disc;
+  }
+
+  .post-content :global(ul li) {
+    margin-block-start: 0.5rem;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .post-content :global(ol) {
+    margin-block-start: 1rem;
+    padding-inline-start: 1rem;
+    list-style-type: decimal;
+  }
+
+  .post-content :global(ol li) {
+    margin-block-start: 0.5rem;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .post-content :global(.astro-code) {
+    margin-block-start: 1rem;
+    padding: 1rem;
+
+    &:first-child {
+      margin-block-start: 0;
+    }
+  }
+
+  .post-content :global(:not(pre) > code) {
+    padding: 0.125rem 0.25rem;
+    background-color: var(--tint-orange-100);
+    color: var(--color-black);
+  }
+
+  .post-footer {
+    margin-block-start: 4rem;
+    margin-block-end: 4rem;
+  }
+
+  .post-footer__tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .post-footer__tags-label {
+    font-size: 0.875rem;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  .post-footer__tags-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .post-footer__tag a {
+    display: block;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--tint-orange-100);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    font-weight: 400;
+    color: var(--color-black);
+    text-transform: capitalize;
+    text-decoration: none;
+  }
+</style>

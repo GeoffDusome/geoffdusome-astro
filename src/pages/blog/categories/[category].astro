@@ -1,0 +1,62 @@
+---
+import Container from '../../../components/Container.astro';
+import Layout from '../../../layouts/Layout.astro';
+import Hero from '../../../components/Hero.astro';
+import PostList from '../../../components/PostList.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+type BlogPost = CollectionEntry<'blog'>;
+type BlogCategory = BlogPost['data']['category'];
+
+export async function getStaticPaths() {
+    const allPosts = await getCollection('blog');
+    const posts = allPosts.sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    );
+
+    const categoryBySlug = new Map<string, BlogCategory>();
+    for (const post of posts) {
+        const c = post.data.category;
+        if (!categoryBySlug.has(c.slug)) categoryBySlug.set(c.slug, c);
+    }
+
+    return [...categoryBySlug.entries()].map(([slug, category]) => ({
+        params: { category: slug },
+        props: {
+            posts: posts.filter((post) => post.data.category.slug === slug),
+            category,
+        },
+    }));
+}
+
+const { posts, category } = Astro.props;
+---
+<Layout
+    title={`Posts in ${category.label} | Geoff Dusome`}
+    seo={{
+        description: `These are posts filed under the ${category.label} category.`,
+        canonicalUrl: `https://geoffduso.me/blog/categories/${category.slug}`,
+        ogTitle: `Posts in ${category.label} | Geoff Dusome`,
+        ogType: 'website',
+        twitterCard: 'summary',
+    }}
+>
+    <Container>
+        <Hero title={`Category: ${category.label}`}>
+            <p>
+                These posts are filed under the <span class="category-label">{category.label}</span> category.
+            </p>
+            <p>
+                You can browse all posts by clicking <a href="/blog" class="animated-underline">here</a> or explore
+                <a href="/blog/tags" class="animated-underline">tags</a>.
+            </p>
+        </Hero>
+        <PostList posts={posts} />
+    </Container>
+</Layout>
+
+<style>
+    .category-label {
+        font-weight: 600;
+    }
+</style>

@@ -1,0 +1,13 @@
+.animated-underline {
+    display: inline;
+    background-image: linear-gradient(var(--shade-orange-100), var(--shade-orange-100));
+    background-size: 0 0.1em;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.15s ease-in-out;
+
+    &:hover,
+    &:focus {
+        background-size: 100% 0.1em;
+    }
+}

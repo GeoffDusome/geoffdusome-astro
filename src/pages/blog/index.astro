@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/Container.astro';
+import Hero from '../../components/Hero.astro';
+import PostList from '../../components/PostList.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<Layout 
+	title="Blog | Geoff Dusome"
+	seo={{
+		description: "I write about web development, WordPress, and other topics related to my work.",
+		canonicalUrl: 'https://geoffduso.me/blog',
+		ogTitle: 'Blog | Geoff Dusome',
+		ogType: 'website',
+		twitterCard: 'summary',
+	}}
+>
+	<Container>
+		<Hero title="Blog">
+			<p>I write about web development, WordPress, and other topics related to my work.</p>
+		</Hero>
+		<PostList posts={posts} />
+	</Container>
+</Layout>

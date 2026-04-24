@@ -1,0 +1,58 @@
+---
+import Container from '../../../components/Container.astro';
+import Layout from '../../../layouts/Layout.astro';
+import Hero from '../../../components/Hero.astro';
+import PostList from '../../../components/PostList.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+type BlogPost = CollectionEntry<'blog'>;
+type BlogTag = BlogPost['data']['tags'][number];
+
+export async function getStaticPaths() {
+    const allPosts = await getCollection('blog');
+    const posts = allPosts.sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    );
+
+    const tagBySlug = new Map<string, BlogTag>();
+    for (const t of posts.flatMap((post) => post.data.tags)) {
+        if (!tagBySlug.has(t.slug)) tagBySlug.set(t.slug, t);
+    }
+
+    return [...tagBySlug.entries()].map(([slug, tag]) => ({
+        params: { tag: slug },
+        props: {
+            posts: posts.filter((post) =>
+                post.data.tags.some((tagItem) => tagItem.slug === slug),
+            ),
+            tag,
+        },
+    }));
+}
+
+const { posts, tag } = Astro.props;
+---
+<Layout 
+    title={`Posts tagged with ${tag.label} | Geoff Dusome`}
+    seo={{
+        description: `These are posts tagged with the ${tag.label} tag.`,
+        canonicalUrl: `https://geoffduso.me/blog/tags/${tag.slug}`,
+        ogTitle: `Posts tagged with ${tag.label} | Geoff Dusome`,
+        ogType: 'website',
+        twitterCard: 'summary',
+    }}
+>
+    <Container>
+        <Hero title={`Tag: ${tag.label}`}>
+            <p>These are posts tagged with the <span class="tag-label">{tag.label}</span> tag.</p>
+            <p>You can browse all posts by clicking <a href="/blog" class="animated-underline">here</a> or all tags by clicking <a href="/blog/tags" class="animated-underline">here</a>.</p>
+        </Hero>
+        <PostList posts={posts} />
+    </Container>
+</Layout>
+
+<style>
+    .tag-label {
+        font-weight: 600;
+    }
+</style>

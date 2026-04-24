@@ -1,0 +1,32 @@
+:root {
+    --shade-orange-100: #e57300;
+    --shade-orange-200: #cc6600;
+    --shade-orange-300: #b25900;
+    --shade-orange-400: #994c00;
+    --shade-orange-500: #7f4000;
+    --shade-orange-600: #663300;
+    --shade-orange-700: #4c2600;
+    --shade-orange-800: #331900;
+    --shade-orange-900: #190c00;
+    
+    --color-orange: #ff8000;
+
+    --tint-orange-100: #fff2e5;
+    --tint-orange-200: #ffe5cc;
+    --tint-orange-300: #ffd8b2;
+    --tint-orange-400: #ffcc99;
+    --tint-orange-500: #ffbf7f;
+    --tint-orange-600: #ffb266;
+    --tint-orange-700: #ffa64c;
+    --tint-orange-800: #ff9932;
+    --tint-orange-900: #ff8c19;
+
+    --color-black: #000000;
+    --color-white: #ffffff;
+
+    --grid-margin: clamp(1rem, -0.3rem + 6.5vw, 7.5rem);
+	--grid-gutter: clamp(1.5rem, 1.2rem + 1.5vw, 3rem);
+	--grid-content-width: 840px;
+	--grid-wide-width: 1136px;
+	--grid-max-width: 1680px;
+}
