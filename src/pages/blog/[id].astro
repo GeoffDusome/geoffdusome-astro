@@ -1,6 +1,6 @@
 ---
 import { Image, getImage } from 'astro:assets';
-import { getCollection, render } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Container from '../../components/Container.astro';
 
@@ -27,6 +27,9 @@ if (site) {
   const { src } = await getImage({ src: post.data.imageUrl, width: 1200 });
   ogImage = new URL(src, site).href;
 }
+
+type BlogPost = CollectionEntry<'blog'>;
+type BlogTag = BlogPost['data']['tags'][number];
 ---
 <Layout
   title={`${post.data.title} | Geoff Dusome`}
@@ -79,7 +82,7 @@ if (site) {
         {post.data.tags.length > 0 && (
           <span class="post-footer__tags-label">Filed under:</span>
           <ul class="post-footer__tags-list">
-            {post.data.tags.map((tag) => (
+            {post.data.tags.map((tag: BlogTag) => (
               <li class="post-footer__tag"><a href={`/blog/tags/${tag.slug}`}>{tag.label}</a></li>
             ))}
           </ul>

@@ -23,7 +23,7 @@ export async function getStaticPaths() {
         params: { tag: slug },
         props: {
             posts: posts.filter((post) =>
-                post.data.tags.some((tagItem) => tagItem.slug === slug),
+                post.data.tags.some((tagItem: BlogTag) => tagItem.slug === slug),
             ),
             tag,
         },
