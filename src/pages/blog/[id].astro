@@ -237,6 +237,28 @@ type BlogTag = BlogPost['data']['tags'][number];
     color: var(--color-black);
   }
 
+  .post-content :global(strong) {
+    font-weight: 700;
+  }
+
+  .post-content :global(a) {
+    display: inline;
+    background-image: linear-gradient(var(--shade-orange-100), var(--shade-orange-100));
+    background-size: 0 0.1em;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.15s ease-in-out;
+
+    color: currentcolor;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+        background-size: 100% 0.1em;
+    }
+  }
+
   .post-footer {
     margin-block-start: 4rem;
     margin-block-end: 4rem;
