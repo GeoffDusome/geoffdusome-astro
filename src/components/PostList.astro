@@ -18,10 +18,22 @@ const { posts } = Astro.props;
 </div>
 
 <style>
+    .post-list {
+        container: post-list / inline-size;
+    }
+
     .post-list__grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr;
         gap: var(--grid-gutter);
         padding-block-end: 4rem;
+
+        @container (width >= 768px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @container (width >= 1160px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 </style>
