@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/Container.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<Layout 
+	title="Oops | Geoff Dusome"
+	seo={{
+		description: "Oops! The page you are looking for does not exist.",
+		canonicalUrl: 'https://geoffduso.me/404',
+		ogTitle: 'Oops | Geoff Dusome',
+		ogType: 'website',
+		twitterCard: 'summary',
+	}}
+>
+	<Container>
+		<Hero title="Oops!">
+			<p>The page you are looking for does not exist. Please check the URL and try again.</p>
+			<p>If you're looking for somewhere to go, you can return to the <a href="/" class="animated-underline">home page</a> or browse the <a href="/blog" class="animated-underline">blog</a>.</p>
+		</Hero>
+	</Container>
+</Layout>
