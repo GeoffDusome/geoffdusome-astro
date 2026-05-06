@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://geoffduso.me/sitemap-index.xml
