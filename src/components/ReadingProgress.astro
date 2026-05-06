@@ -1,0 +1,34 @@
+<div class="reading-progress">
+    <div class="reading-progress__bar" data-reading-progress-bar></div>
+</div>
+
+<style>
+    .reading-progress {
+        width: 100%;
+        height: 3px;
+        background-color: var(--tint-orange-400);
+    }
+
+    .reading-progress__bar {
+        width: 0;
+        height: 100%;
+        background-color: var(--shade-orange-100);
+        transition: width 0.1s ease-in-out;
+    }
+</style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        const progressBar = document.querySelector('[data-reading-progress-bar]') as HTMLElement;
+
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (scroll / height) * 100;
+            
+            if (progressBar) {
+                progressBar.style.width = `${scrolled}%`;
+            }
+        });
+    } );
+</script>

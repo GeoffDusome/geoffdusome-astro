@@ -11,9 +11,10 @@ import { Font } from 'astro:assets';
 interface Props {
 	title: string;
 	seo?: SEOData;
+	showReadingProgress?: boolean;
 }
 
-const { title, seo } = Astro.props;
+const { title, seo, showReadingProgress = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -31,7 +32,7 @@ const { title, seo } = Astro.props;
 		<Font cssVariable="--font-open-sans" />
 	</head>
 	<body>
-		<Header />
+		<Header showReadingProgress={showReadingProgress} />
 		<main transition:animate="fade">
 			<slot />
 		</main>

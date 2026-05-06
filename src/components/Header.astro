@@ -1,23 +1,32 @@
 ---
 import Nav from './Nav.astro';
+import ReadingProgress from './ReadingProgress.astro';
+
+const { showReadingProgress } = Astro.props;
 ---
 
-<header>
-    {Astro.url.pathname === '/' ? <h1 class="logo">GDev</h1> : <span class="logo"><a href="/" class="animated-underline">GDev</a></span>}
-    <Nav items={[
-        { href: '/', text: 'Home' },
-        { href: '/blog', text: 'Blog' },
-    ]} linkColor="var(--color-black)" />
-</header>
+<div class="header-container">
+    <header>
+        {Astro.url.pathname === '/' ? <h1 class="logo">GDev</h1> : <span class="logo"><a href="/" class="animated-underline">GDev</a></span>}
+        <Nav items={[
+            { href: '/', text: 'Home' },
+            { href: '/blog', text: 'Blog' },
+        ]} linkColor="var(--color-black)" />
+    </header>
+    {showReadingProgress && <ReadingProgress />}
+</div>
 
 <style>
+    .header-container {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
     header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        position: sticky;
-        top: 0;
-        z-index: 100;
         padding: 1rem var(--grid-margin);
         background-color: var(--tint-orange-300);
     }
