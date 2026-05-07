@@ -1,0 +1,49 @@
+---
+interface Props {
+    items: { slug: string; label: string }[];
+    /** Base path without trailing slash, e.g. `/blog/categories` */
+    hrefBase: string;
+    emptyMessage: string;
+}
+
+const { items, hrefBase, emptyMessage } = Astro.props;
+---
+
+{
+    items.length === 0 ? (
+        <p class="taxonomy-list__empty">{emptyMessage}</p>
+    ) : (
+        <ul class="taxonomy-list">
+            {items.map((item) => (
+                <li>
+                    <a href={`${hrefBase}/${item.slug}`} class="animated-underline">
+                        {item.label}
+                    </a>
+                </li>
+            ))}
+        </ul>
+    )
+}
+
+<style>
+    .taxonomy-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 4rem;
+        max-width: var(--grid-content-width);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .taxonomy-list a {
+        color: currentcolor;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .taxonomy-list__empty {
+        max-width: var(--grid-content-width);
+        margin-bottom: 4rem;
+    }
+</style>

@@ -2,6 +2,7 @@
 import Container from '../../../components/Container.astro';
 import Layout from '../../../layouts/Layout.astro';
 import Hero from '../../../components/Hero.astro';
+import TaxonomyList from '../../../components/TaxonomyList.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 type BlogPost = CollectionEntry<'blog'>;
@@ -32,46 +33,10 @@ const categories = [...categoryBySlug.values()].sort((a, b) =>
         <Hero title="Categories">
             <p>Posts grouped by category. You can also browse by <a href="/blog/tags" class="animated-underline">tag</a> or return to the <a href="/blog" class="animated-underline">blog</a>.</p>
         </Hero>
-        {
-            categories.length === 0 ? (
-                <p class="empty">No categories yet.</p>
-            ) : (
-                <ul class="taxonomy-list">
-                    {categories.map((category) => (
-                        <li>
-                            <a
-                                href={`/blog/categories/${category.slug}`}
-                                class="animated-underline"
-                            >
-                                {category.label}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            )
-        }
+        <TaxonomyList
+            items={categories}
+            hrefBase="/blog/categories"
+            emptyMessage="No categories yet."
+        />
     </Container>
 </Layout>
-
-<style>
-    .taxonomy-list {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 4rem;
-        max-width: var(--grid-content-width);
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .taxonomy-list a {
-        color: currentcolor;
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-    .empty {
-        max-width: var(--grid-content-width);
-        margin-bottom: 4rem;
-    }
-</style>
