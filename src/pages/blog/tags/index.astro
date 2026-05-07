@@ -1,0 +1,77 @@
+---
+import Container from '../../../components/Container.astro';
+import Layout from '../../../layouts/Layout.astro';
+import Hero from '../../../components/Hero.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+type BlogPost = CollectionEntry<'blog'>;
+type BlogTag = BlogPost['data']['tags'][number];
+
+const allPosts = await getCollection('blog');
+const tagBySlug = new Map<string, BlogTag>();
+for (const post of allPosts) {
+    for (const tag of post.data.tags) {
+        if (!tagBySlug.has(tag.slug)) tagBySlug.set(tag.slug, tag);
+    }
+}
+const tags = [...tagBySlug.values()].sort((a, b) => a.label.localeCompare(b.label));
+---
+
+<Layout
+    title="Blog Tags | Geoff Dusome"
+    seo={{
+        description: 'Browse posts by tag.',
+        canonicalUrl: 'https://geoffduso.me/blog/tags',
+        ogTitle: 'Blog Tags | Geoff Dusome',
+        ogType: 'website',
+        twitterCard: 'summary',
+    }}
+>
+    <Container>
+        <Hero title="Tags">
+            <p>
+                Topics used across posts. You can also browse by
+                <a href="/blog/categories" class="animated-underline">category</a> or return to the
+                <a href="/blog" class="animated-underline">blog</a>.
+            </p>
+        </Hero>
+        {
+            tags.length === 0 ? (
+                <p class="empty">No tags yet.</p>
+            ) : (
+                <ul class="taxonomy-list">
+                    {tags.map((tag) => (
+                        <li>
+                            <a href={`/blog/tags/${tag.slug}`} class="animated-underline">
+                                {tag.label}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            )
+        }
+    </Container>
+</Layout>
+
+<style>
+    .taxonomy-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 4rem;
+        max-width: var(--grid-content-width);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .taxonomy-list a {
+        color: currentcolor;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .empty {
+        max-width: var(--grid-content-width);
+        margin-bottom: 4rem;
+    }
+</style>
