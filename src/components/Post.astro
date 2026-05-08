@@ -83,7 +83,7 @@ const tn = (key: string) => `${key}-${post.data.slug}`;
     .post__category {
         display: block;
         text-transform: capitalize;
-        font-size: 0.875rem;
+        font-size: var(--font-size-05);
         line-height: 1.2;
         font-weight: 400;
         color: var(--shade-orange-800);
@@ -95,30 +95,25 @@ const tn = (key: string) => `${key}-${post.data.slug}`;
     }
 
     .post__title {
-        font-size: 1.5rem;
-        line-height: 1.2;
-        font-weight: 600;
+        font-size: var(--font-size-10);
     }
 
     .post__date {
         display: block;
-        font-size: 0.875rem;
-        line-height: 1.2;
-        font-weight: 400;
+        font-size: var(--font-size-05);
         color: var(--shade-orange-800);
     }
 
     .post__description {
         margin-block-start: 0.5rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        font-weight: 400;
         color: var(--shade-orange-800);
     }
 
     .post__link {
+        display: block;
         grid-area: 1 / 1;
         position: relative;
         z-index: 2;
+        background-image: none;
     }
 </style>

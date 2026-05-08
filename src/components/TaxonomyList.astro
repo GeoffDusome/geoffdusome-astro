@@ -16,7 +16,7 @@ const { items, hrefBase, emptyMessage } = Astro.props;
         <ul class="taxonomy-list">
             {items.map((item) => (
                 <li>
-                    <a href={`${hrefBase}/${item.slug}`} class="animated-underline">
+                    <a href={`${hrefBase}/${item.slug}`}>
                         {item.label}
                     </a>
                 </li>
@@ -34,12 +34,6 @@ const { items, hrefBase, emptyMessage } = Astro.props;
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
-    }
-
-    .taxonomy-list a {
-        color: currentcolor;
-        text-decoration: none;
-        font-weight: 600;
     }
 
     .taxonomy-list__empty {

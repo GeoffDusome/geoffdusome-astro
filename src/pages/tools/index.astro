@@ -1,0 +1,32 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/Container.astro';
+import Hero from '../../components/Hero.astro';
+import TaxonomyList from '../../components/TaxonomyList.astro';
+
+const tools = [
+	{ slug: 'aspect-ratio-calculator', label: 'Aspect Ratio Calculator' },
+];
+---
+
+<Layout 
+	title="Tools | Geoff Dusome"
+	seo={{
+		description: "Here's some of the tools I've made that help me build websites.",
+		canonicalUrl: 'https://geoffduso.me/tools',
+		ogTitle: 'Tools | Geoff Dusome',
+		ogType: 'website',
+		twitterCard: 'summary',
+	}}
+>
+	<Container>
+		<Hero title="Tools">
+			<p>I got tired of using tools online and having them not really be exactly what I needed for the job. So I made my own. Here's some of the tools I've made that help me build websites.</p>
+		</Hero>
+		<TaxonomyList
+			items={tools}
+			hrefBase="/tools"
+			emptyMessage="No tools yet."
+		/>
+	</Container>
+</Layout>

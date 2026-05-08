@@ -1,0 +1,322 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/Container.astro';
+import Hero from '../../components/Hero.astro';
+import { Code } from 'astro:components';
+---
+
+<Layout 
+	title="Tools | Geoff Dusome"
+	seo={{
+		description: "Here's some of the tools I've made that help me build websites.",
+		canonicalUrl: 'https://geoffduso.me/tools',
+		ogTitle: 'Tools | Geoff Dusome',
+		ogType: 'website',
+		twitterCard: 'summary',
+	}}
+>
+	<Container>
+		<Hero title="Aspect Ratio Calculator">
+			<p>A tool to calculate the missing value for a particular aspect ratio. This tool is useful when you need to resize an image or video to a specific aspect ratio.</p>
+		</Hero>
+        <div class="aspect-ratio-calculator">
+            <div class="aspect-ratio-calculator__controls">
+                <div class="aspect-ratio-calculator__calculator">
+                    <div class="aspect-ratio-calculator__calculator-set">
+                        <div class="aspect-ratio-calculator__calculator-set-item">
+                            <label for="original-width" class="aspect-ratio-calculator__calculator-set-item-label">Original Width (W1)</label>
+                            <input type="number" id="original-width" class="aspect-ratio-calculator__calculator-set-item-input" name="original-width" value="1920" data-original-width />
+                        </div>
+                        <div class="aspect-ratio-calculator__calculator-set-item">
+                            <label for="original-height" class="aspect-ratio-calculator__calculator-set-item-label">Original Height (H1)</label>
+                            <input type="number" id="original-height" class="aspect-ratio-calculator__calculator-set-item-input" name="original-height" value="1080" data-original-height />
+                        </div>
+                    </div>
+                    <span class="aspect-ratio-calculator__calculator-set-separator">=</span>
+                    <div class="aspect-ratio-calculator__calculator-set">
+                        <div class="aspect-ratio-calculator__calculator-set-item">
+                            <label for="new-width" class="aspect-ratio-calculator__calculator-set-item-label">New Width (W2)</label>
+                            <input type="number" id="new-width" class="aspect-ratio-calculator__calculator-set-item-input" name="new-width" data-new-width />
+                        </div>
+                        <div class="aspect-ratio-calculator__calculator-set-item">
+                            <label for="new-height" class="aspect-ratio-calculator__calculator-set-item-label">New Height (H2)</label>
+                            <input type="number" id="new-height" class="aspect-ratio-calculator__calculator-set-item-input" name="new-height" data-new-height />
+                        </div>
+                    </div>
+                </div>
+                <div class="aspect-ratio-calculator__calculator-rounding">
+                    <label for="rounding" class="aspect-ratio-calculator__calculator-rounding-label">
+                        <input type="checkbox" id="rounding" class="aspect-ratio-calculator__calculator-rounding-input" name="rounding" data-result-rounding checked />
+                        <span class="aspect-ratio-calculator__calculator-rounding-label-text">Round results to the nearest whole number</span>
+                    </label>
+                    <p>Note: When rounding is enabled and you're using small numbers, the results may not be exact and you may find the tool unhelpful.</p>
+                </div>
+                <div class="aspect-ratio-calculator__calculator-result">
+                    <p>Your aspect ratio is <span class="aspect-ratio-calculator__calculator-result-value" data-result-value>16 : 9</span>.</p>
+                    <div class="aspect-ratio-calculator__calculator-result-image">
+                        <img src="https://placehold.co/1920x1080/f9f5d7/3c3836" alt="Aspect ratio calculator result" data-result-image />
+                    </div>
+                </div>
+            </div>
+            <div class="aspect-ratio-calculator__instructions">
+                <h2>Instructions</h2>
+                <ol>
+                    <li>Enter the values for the original width (W1) & original height (H1).</li>
+                    <li>Enter either a new width (W2) or new height (H2) on the right to calculate the remaining value.</li>
+                </ol>
+                <p>Note: The calculator is omnidirectional. You can enter any of the values and the calculator will calculate the remaining value.</p>
+                <h2>Formula</h2>
+                <p>Say you have a video that is 1920 x 1080 pixels, but your blog only has space for a video half of that size. To find the new height of your video while preserving the aspect ratio you would need to do the following calculation:</p>
+                <Code code={`(original height / original width) x new width = new height`} lang="text" theme="gruvbox-light-hard"></Code>
+                <p>Running the calculation with the values from the example, we get:</p>
+                <Code code={`(1080 / 1920) x 960 = 540`} lang="text" theme="gruvbox-light-hard"></Code>
+                <p>So the new height of your video would be 540 pixels.</p>
+            </div>
+        </div>
+	</Container>
+</Layout>
+
+<style>
+    .aspect-ratio-calculator {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        padding-block-end: 4rem;
+
+        @media (min-width: 1100px) {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+    }
+
+    .aspect-ratio-calculator__controls {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        @media (min-width: 1100px) {
+            flex: 1 1 50%;
+        }
+    }
+
+    .aspect-ratio-calculator__calculator {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .aspect-ratio-calculator__calculator-set {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .aspect-ratio-calculator__calculator-set-item {        
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .aspect-ratio-calculator__calculator-set-item-label {
+        display: block;
+        font-size: var(--font-size-05);
+        line-height: 1.2;
+        font-weight: 600;
+        color: var(--color-black);
+    }
+
+    .aspect-ratio-calculator__calculator-set-item-input {
+        appearance: none;
+        display: block;
+        border: 1px solid var(--color-black);
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        font-size: var(--font-size-base);
+        line-height: 1.5;
+        font-weight: 400;
+        color: var(--color-black);
+        background-color: var(--color-white);
+        width: 100%;
+
+        &:focus {
+            outline: 2px solid var(--tint-orange-600);
+            outline-offset: 2px;
+        }
+    }
+
+    .aspect-ratio-calculator__calculator-set-separator {
+        font-size: var(--font-size-20);
+        line-height: 1;
+        font-weight: 600;
+    }
+
+    .aspect-ratio-calculator__calculator-rounding-label {
+        display: block;
+        position: relative;
+        padding-left: 3rem;
+    }
+
+    .aspect-ratio-calculator__calculator-rounding-input {
+        appearance: none;
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0.75em;
+        transform: translateY(-50%);
+        border: 1px solid var(--color-black);
+        border-radius: 0.25rem;
+        padding: 0.75rem;
+        margin: 0;
+        font-size: var(--font-size-base);
+        line-height: 1.5;
+        font-weight: 400;
+        color: var(--color-black);
+
+        &:checked {
+            background-color: var(--color-orange);
+        }
+
+        &:focus {
+            outline: 2px solid var(--tint-orange-600);
+            outline-offset: 2px;
+        }
+    }
+
+    .aspect-ratio-calculator__calculator-rounding-label-text {
+        font-size: var(--font-size-base);
+        line-height: 1.5;
+        font-weight: 400;
+        color: var(--color-black);
+    }
+
+    .aspect-ratio-calculator__calculator-rounding p {
+        margin-block-start: 0.5rem;
+        font-size: var(--font-size-05);
+        line-height: 1.5;
+        font-weight: 400;
+        color: var(--color-black);
+    }
+
+    .aspect-ratio-calculator__calculator-result p {
+        font-size: var(--font-size-10);
+        line-height: 1.5;
+        font-weight: 400;
+        color: var(--color-black);
+    }
+
+    .aspect-ratio-calculator__calculator-result-value {
+        font-weight: 700;
+    }
+
+    .aspect-ratio-calculator__calculator-result-image {
+        margin-block-start: 1rem;
+    }
+
+    .aspect-ratio-calculator__calculator-result-image img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    .aspect-ratio-calculator__instructions {
+
+        @media (min-width: 1100px) {
+            flex: 1 1 50%;
+        }
+    }
+
+    .aspect-ratio-calculator__instructions :global(h2) {
+        margin-block-start: 2rem;
+
+        &:first-child {
+            margin-block-start: 0;
+        }
+    }
+
+    .aspect-ratio-calculator__instructions :global(ol) {
+        margin-block-start: 1rem;
+        padding-inline-start: 1rem;
+        list-style-type: decimal;
+    }
+
+    .aspect-ratio-calculator__instructions :global(ol li) {
+        margin-block-start: 0.5rem;
+    }
+
+    .aspect-ratio-calculator__instructions :global(p) {
+        margin-block-start: 1rem;
+    }
+
+    .aspect-ratio-calculator__instructions :global(.astro-code) {
+        margin-block-start: 1rem;
+        padding: 1rem;
+
+        &:first-child {
+            margin-block-start: 0;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        const calculator = document.querySelector('.aspect-ratio-calculator');
+        if (!calculator) return;
+
+        const originalWidth = calculator.querySelector<HTMLInputElement>('[data-original-width]');
+        const originalHeight = calculator.querySelector<HTMLInputElement>('[data-original-height]');
+        const newWidth = calculator.querySelector<HTMLInputElement>('[data-new-width]');
+        const newHeight = calculator.querySelector<HTMLInputElement>('[data-new-height]');
+        const rounding = calculator.querySelector<HTMLInputElement>('[data-result-rounding]');
+        const resultValue = calculator.querySelector<HTMLElement>('[data-result-value]');
+        const resultImage = calculator.querySelector<HTMLImageElement>('[data-result-image]');
+
+        if (!originalWidth || !originalHeight || !newWidth || !newHeight || !rounding || !resultValue || !resultImage) return;
+
+        // Which "new" field the user last typed in - the other is derived from it.
+        let lastEdited: 'width' | 'height' = 'width';
+
+        const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+
+        const format = (value: number) =>
+            rounding.checked ? Math.round(value).toString() : parseFloat(value.toFixed(4)).toString();
+
+        const update = () => {
+            const w1 = parseFloat(originalWidth.value);
+            const h1 = parseFloat(originalHeight.value);
+            const ratio = w1 > 0 && h1 > 0 ? h1 / w1 : 0;
+
+            if (ratio > 0) {
+                const w = Math.round(w1);
+                const h = Math.round(h1);
+                const divisor = gcd(w, h);
+                resultValue.textContent = `${w / divisor} : ${h / divisor}`;
+            } else {
+                resultValue.textContent = '—';
+            }
+
+            if (ratio > 0 && lastEdited === 'width') {
+                const w2 = parseFloat(newWidth.value);
+                newHeight.value = w2 > 0 ? format(ratio * w2) : '';
+            } else if (ratio > 0) {
+                const h2 = parseFloat(newHeight.value);
+                newWidth.value = h2 > 0 ? format(h2 / ratio) : '';
+            }
+
+            const w = parseFloat(newWidth.value) || w1;
+            const h = parseFloat(newHeight.value) || h1;
+            if (w > 0 && h > 0) {
+                resultImage.src = `https://placehold.co/${Math.round(w)}x${Math.round(h)}/f9f5d7/3c3836`;
+            }
+        };
+
+        originalWidth.addEventListener('input', update);
+        originalHeight.addEventListener('input', update);
+        newWidth.addEventListener('input', () => { lastEdited = 'width'; update(); });
+        newHeight.addEventListener('input', () => { lastEdited = 'height'; update(); });
+        rounding.addEventListener('change', update);
+
+        update();
+    });
+</script>

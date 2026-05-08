@@ -7,7 +7,7 @@ const { href, text, target, isActive } = Astro.props;
         href={href} 
         target={target || '_self'}
         rel={target === '_blank' ? 'noreferrer' : undefined}
-        class:list={['animated-underline', {'active': isActive}]}
+        class:list={[{'active': isActive}]}
     >
         {text}
     </a>
@@ -15,8 +15,6 @@ const { href, text, target, isActive } = Astro.props;
 
 <style>
     li a {
-        text-decoration: none;
-        color: currentcolor;
 
         &.active {
             background-size: 100% 0.1em;

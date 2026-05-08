@@ -10,6 +10,7 @@ const { showReadingProgress } = Astro.props;
         {Astro.url.pathname === '/' ? <h1 class="logo">GDev</h1> : <span class="logo"><a href="/" class="animated-underline">GDev</a></span>}
         <Nav items={[
             { href: '/', text: 'Home' },
+            { href: '/tools', text: 'Tools' },
             { href: '/blog', text: 'Blog' },
         ]} linkColor="var(--color-black)" />
     </header>
