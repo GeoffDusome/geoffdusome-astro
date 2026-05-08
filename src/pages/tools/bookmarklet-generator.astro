@@ -1,0 +1,356 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/Container.astro';
+import Hero from '../../components/Hero.astro';
+import { Code } from 'astro:components';
+---
+
+<Layout 
+	title="Bookmarklet Generator | Geoff Dusome"
+	seo={{
+		description: "A tool to generate bookmarklets for your website or browser.",
+		canonicalUrl: 'https://geoffduso.me/tools/bookmarklet-generator',
+		ogTitle: 'Bookmarklet Generator | Geoff Dusome',
+		ogType: 'website',
+		twitterCard: 'summary',
+	}}
+>
+	<Container>
+		<Hero title="Bookmarklet Generator">
+			<p>A tool to generate bookmarklets for your website or browser. Bookmarklets are small scripts that can be added to your browser's bookmarks bar to perform a specific action.</p>
+		</Hero>
+        <div class="bookmarklet-generator">
+            <div class="bookmarklet-generator__generator">
+                <div class="bookmarklet-generator__controls">
+                    <div class="bookmarklet-generator__control">
+                        <label for="bookmarklet-title" class="bookmarklet-generator__control-label">Title</label>
+                        <input type="text" id="bookmarklet-title" class="bookmarklet-generator__control-input" name="bookmarklet-title" value="Bookmarklet" data-bookmarklet-title />
+                    </div>
+                    <div class="bookmarklet-generator__control">
+                        <label for="bookmarklet-code" class="bookmarklet-generator__control-label">Code</label>
+                        <textarea id="bookmarklet-code" class="bookmarklet-generator__control-textarea" name="bookmarklet-code" data-bookmarklet-code>alert('hello world');</textarea>
+                    </div>
+                </div>
+                <div class="bookmarklet-generator__actions">
+                    <span class="bookmarklet-generator__actions-item">
+                        <button class="bookmarklet-generator__actions-button bookmarklet-generator__actions-button--generate" data-bookmarklet-generate>Generate</button>
+                    </span>
+                </div>
+                <div class="bookmarklet-generator__result">
+                    <div class="bookmarklet-generator__result-item">
+                        <p><a href="#" class="bookmarklet-generator__result-item-link" data-bookmarklet-result-link>Bookmarklet</a></p>
+                        <p>Click and drag this link to your browser's bookmarks bar for quick access.</p>
+                    </div>
+                    <div class="bookmarklet-generator__result-item">
+                        <label for="bookmarklet-result-output" class="bookmarklet-generator__result-item-label">Output</label>
+                        <textarea id="bookmarklet-result-output" class="bookmarklet-generator__result-item-textarea" name="bookmarklet-result-output" disabled data-bookmarklet-result-output></textarea>
+                    </div>
+                    <div class="bookmarklet-generator__result-item">
+                        <label for="bookmarklet-result-html" class="bookmarklet-generator__result-item-label">HTML</label>
+                        <textarea id="bookmarklet-result-html" class="bookmarklet-generator__result-item-textarea" name="bookmarklet-result-html" disabled data-bookmarklet-result-html></textarea>
+                    </div>
+                </div>
+                <div class="bookmarklet-generator__actions">
+                    <span class="bookmarklet-generator__actions-item">
+                        <button class="bookmarklet-generator__actions-button" data-bookmarklet-copy>Copy</button>
+                    </span>
+                    <span class="bookmarklet-generator__actions-item">
+                        <button class="bookmarklet-generator__actions-button" data-bookmarklet-run>Run</button>
+                    </span>
+                    <span class="bookmarklet-generator__actions-item">
+                        <button class="bookmarklet-generator__actions-button" data-bookmarklet-clear>Clear</button>
+                    </span>
+                </div>
+            </div>
+            <div class="bookmarklet-generator__instructions">
+                <h2>Instructions</h2>
+                <ol>
+                    <li>Enter the title and code for your bookmarklet.</li>
+                    <li>Click the "Generate" button to generate the bookmarklet.</li>
+                    <li>Click the "Copy" button to copy the bookmarklet to your clipboard.</li>
+                    <li>Click the "Run" button to run the bookmarklet in your browser.</li>
+                    <li>Click the "Clear" button to clear the generator.</li>
+                    <li>Drag the link to your browser's bookmarks bar for quick access.</li>
+                </ol>
+                <h2>Examples</h2>
+                <p>Alert the user with a message.</p>
+                <Code code={`alert('hello world');`} lang="js" theme="gruvbox-light-hard" wrap={true} />
+                <p>Load a website in a new tab.</p>
+                <Code code={`window.open('https://geoffduso.me', '_blank');`} lang="js" theme="gruvbox-light-hard" wrap={true} />
+                <p>Generate a QR code for the current page.</p>
+                <Code code={`window.open('https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(window.location.href), '_blank');`} lang="js" theme="gruvbox-light-hard" wrap={true} />
+                <p>Run PageSpeed Insights for the current page.</p>
+                <Code code={`window.open('https://developers.google.com/speed/pagespeed/insights/?url=' + encodeURIComponent(window.location.href), '_blank');`} lang="js" theme="gruvbox-light-hard" wrap={true} />
+            </div>
+        </div>
+	</Container>
+</Layout>
+
+<style>
+    .bookmarklet-generator {
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+        padding-block-end: 4rem;
+
+        @media (min-width: 1100px) {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+    }
+
+    .bookmarklet-generator__generator {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .bookmarklet-generator__controls {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        @media (min-width: 1100px) {
+            flex: 1;
+        }
+    }
+
+    .bookmarklet-generator__control {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .bookmarklet-generator__control-label {
+        display: block;
+        font-size: var(--font-size-05);
+        line-height: 1.2;
+        font-weight: 600;
+        color: var(--color-black);
+    }
+
+    .bookmarklet-generator__control-input {
+        appearance: none;
+        display: block;
+        border: 1px solid var(--color-black);
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        font-size: var(--font-size-base);
+        line-height: 1.5;
+
+        &:focus {
+            outline: 2px solid var(--tint-orange-600);
+            outline-offset: 2px;
+        }
+    }
+
+    .bookmarklet-generator__control-textarea {
+        appearance: none;
+        display: block;
+        min-height: 10rem;
+        border: 1px solid var(--color-black);
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        font-size: var(--font-size-base);
+
+        &:focus {
+            outline: 2px solid var(--tint-orange-600);
+            outline-offset: 2px;
+        }
+    }
+
+    .bookmarklet-generator__actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .bookmarklet-generator__actions-button {
+        display: block;
+        border: 1px solid var(--color-black);
+        background-color: var(--tint-orange-100);
+        color: var(--color-black);
+        border-radius: 0.25rem;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        font-size: var(--font-size-05);
+        line-height: 1.5;
+        font-weight: 400;
+        text-decoration: none;
+        transition: background-color 0.15s ease-in-out;
+
+        &:hover,
+        &:focus {
+            background-color: var(--tint-orange-200);
+        }
+
+        &:focus {
+            outline: 2px solid var(--tint-orange-600);
+            outline-offset: 2px;
+        }
+    }
+
+    .bookmarklet-generator__actions-button--generate {
+        background-color: var(--shade-orange-100);
+        color: var(--color-white);
+
+        &:hover,
+        &:focus {
+            background-color: var(--shade-orange-200);
+        }
+    }
+
+    .bookmarklet-generator__result {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        border-top: 1px solid var(--color-black);
+        padding-top: 2rem;
+    }
+
+    .bookmarklet-generator__result-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        &:first-child {
+            border-bottom: 1px solid var(--color-black);
+            padding-bottom: 2rem;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .bookmarklet-generator__result-item-label {
+        display: block;
+        font-size: var(--font-size-05);
+        line-height: 1.2;
+        font-weight: 600;
+        color: var(--color-black);
+    }
+
+    .bookmarklet-generator__result-item-textarea {
+        appearance: none;
+        display: block;
+        border: 1px solid var(--color-black);
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        min-block-size: 4.5rem;
+        resize: none;
+        overflow-y: hidden;
+        overflow-wrap: anywhere;
+    }
+
+    .bookmarklet-generator__instructions {
+
+        @media (min-width: 1100px) {
+            flex: 1;
+        }
+    }
+
+    .bookmarklet-generator__instructions :global(h2) {
+        margin-block-start: 2rem;
+
+        &:first-child {
+            margin-block-start: 0;
+        }
+    }
+
+    .bookmarklet-generator__instructions :global(ol) {
+        margin-block-start: 1rem;
+        padding-inline-start: 1.5rem;
+        list-style-type: decimal;
+    }
+
+    .bookmarklet-generator__instructions :global(ol li) {
+        margin-block-start: 0.5rem;
+    }
+
+    .bookmarklet-generator__instructions :global(p) {
+        margin-block-start: 1rem;
+    }
+
+    .bookmarklet-generator__instructions :global(.astro-code) {
+        margin-block-start: 1rem;
+        padding: 1rem;
+
+        &:first-child {
+            margin-block-start: 0;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        const root = document.querySelector('.bookmarklet-generator');
+        if (!root) return;
+
+        const titleEl = root.querySelector<HTMLInputElement>('[data-bookmarklet-title]');
+        const codeEl = root.querySelector<HTMLTextAreaElement>('[data-bookmarklet-code]');
+        const linkEl = root.querySelector<HTMLAnchorElement>('[data-bookmarklet-result-link]');
+        const outputEl = root.querySelector<HTMLTextAreaElement>('[data-bookmarklet-result-output]');
+        const htmlEl = root.querySelector<HTMLTextAreaElement>('[data-bookmarklet-result-html]');
+        const btnGen = root.querySelector<HTMLButtonElement>('[data-bookmarklet-generate]');
+        const btnCopy = root.querySelector<HTMLButtonElement>('[data-bookmarklet-copy]');
+        const btnRun = root.querySelector<HTMLButtonElement>('[data-bookmarklet-run]');
+        const btnClear = root.querySelector<HTMLButtonElement>('[data-bookmarklet-clear]');
+
+        if (!titleEl || !codeEl || !linkEl || !outputEl || !htmlEl || !btnGen || !btnCopy || !btnRun || !btnClear) return;
+
+        const defaultTitle = 'Bookmarklet';
+        const defaultCode = "alert('hello world');";
+
+        const buildUrl = (code: string) =>
+            'javascript:(function(){' + encodeURIComponent(code) + '})();';
+
+        const escaper = document.createElement('div');
+        const escapeHtml = (s: string) => {
+            escaper.textContent = s;
+            return escaper.innerHTML;
+        };
+
+        const fitTextarea = (el: HTMLTextAreaElement) => {
+            el.style.height = 'auto';
+            el.style.height = `${el.scrollHeight}px`;
+        };
+
+        const generate = () => {
+            const code = codeEl.value;
+            const title = titleEl.value.trim() || defaultTitle;
+            const url = buildUrl(code);
+
+            linkEl.textContent = title;
+            linkEl.href = url;
+            outputEl.value = url;
+            htmlEl.value = '<a href="' + escapeHtml(url) + '">' + escapeHtml(title) + '</a>';
+            fitTextarea(outputEl);
+            fitTextarea(htmlEl);
+        };
+
+        btnGen.addEventListener('click', generate);
+
+        btnCopy.addEventListener('click', () => {
+            void navigator.clipboard.writeText(outputEl.value);
+        });
+
+        btnRun.addEventListener('click', () => {
+            try {
+                new Function(codeEl.value)();
+            } catch (e) {
+                window.alert(e instanceof Error ? e.message : String(e));
+            }
+        });
+
+        btnClear.addEventListener('click', () => {
+            titleEl.value = defaultTitle;
+            codeEl.value = defaultCode;
+            linkEl.textContent = defaultTitle;
+            linkEl.href = '#';
+            outputEl.value = '';
+            htmlEl.value = '';
+            fitTextarea(outputEl);
+            fitTextarea(htmlEl);
+        });
+
+        generate();
+    });
+</script>
