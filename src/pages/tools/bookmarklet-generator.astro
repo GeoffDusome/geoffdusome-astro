@@ -152,6 +152,7 @@ import { Code } from 'astro:components';
         border-radius: 0.25rem;
         padding: 0.5rem;
         font-size: var(--font-size-base);
+        resize: vertical;
 
         &:focus {
             outline: 2px solid var(--tint-orange-600);
@@ -233,8 +234,6 @@ import { Code } from 'astro:components';
         border: 1px solid var(--color-black);
         border-radius: 0.25rem;
         padding: 0.5rem;
-        box-sizing: border-box;
-        min-block-size: 4.5rem;
         resize: none;
         overflow-y: hidden;
         overflow-wrap: anywhere;
@@ -314,9 +313,8 @@ import { Code } from 'astro:components';
         };
 
         const generate = () => {
-            const code = codeEl.value;
             const title = titleEl.value.trim() || defaultTitle;
-            const url = buildUrl(code);
+            const url = buildUrl(codeEl.value);
 
             linkEl.textContent = title;
             linkEl.href = url;
@@ -329,7 +327,13 @@ import { Code } from 'astro:components';
         btnGen.addEventListener('click', generate);
 
         btnCopy.addEventListener('click', () => {
-            void navigator.clipboard.writeText(outputEl.value);
+            const original = btnCopy.textContent;
+            navigator.clipboard.writeText(outputEl.value).then(
+                () => { btnCopy.textContent = 'Copied!'; },
+                () => { btnCopy.textContent = 'Failed'; }
+            ).finally(() => {
+                setTimeout(() => { btnCopy.textContent = original; }, 1500);
+            });
         });
 
         btnRun.addEventListener('click', () => {
